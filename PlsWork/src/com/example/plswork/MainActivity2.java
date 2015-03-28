@@ -4,6 +4,7 @@ import processing.core.PApplet;
 
 public class MainActivity2 extends PApplet {
 
+	
 	int x;
 	int y;
 	int newx = x;
