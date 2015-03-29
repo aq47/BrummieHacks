@@ -3,6 +3,7 @@ package Logic;
 import processing.core.PApplet;
 import android.util.Log;
 
+
 public class Character {
   
   int x;
@@ -42,59 +43,39 @@ public class Character {
     this.y = y;
   }
   
-  public void move(){
-    int diffx = newx - x;
-    int diffy = newy - y;
-    String s ="from ("+x+","+y+") ";
-    if(speed>Math.abs(diffx)){
-      x=newx;
+  public void move(Board b){
+    if(newx != x ){
+      int diffx = newx - x;
+      int xdiff = (diffx /Math.abs(diffx))*speed;
+      if(b.checkpath(x,y,x+xdiff,y)){
+        if(speed>Math.abs(diffx)){
+          x=newx;
+        }
+        else{
+          x+=xdiff;
+        }    
+      }
     }
-    else if (diffx > 0) {
-      x+=speed;
-    } else if (diffx < 0) {
-      x-=speed;
+    if(newy!=y){
+      int diffy = newy - y;
+      int ydiff = (diffy /Math.abs(diffy))*speed;
+      if(b.checkpath(x,y,x,y+ydiff)){
+        if(speed>Math.abs(diffy)){
+          y=newy;
+        }
+        else{
+          y+=ydiff;
+        }
+      }
     }
-    if(speed>Math.abs(diffy)){
-      y=newy;
-    }
-     else if (diffy > 0) {
-      y+=speed;
-    } else if (diffy < 0) {
-      y-=speed;
-    }
-    s += "to ("+x+","+y+")";
-    //Log.d("UNIQUE ID",s);
 
     
   }
   
-  public void setNewPosition(int x2,int y2,Board b){
-
-    if(b.checkpath(x, y, x2, y2)){
-      newx = x2;
-      newy = y2;
-    }
-    else{
-      int[] xandy = b.getpath(x, y, x2, y2);
-      if(xandy!=null){
-        newx = xandy[0];
-        newy = xandy[1];
-      }
-      else{
-    	  int xdiff = x2-x;
-    	  xdiff = xdiff/Math.abs(xdiff);
-    	  int ydiff = y2-y;
-    	  ydiff = ydiff/Math.abs(ydiff);
-    	  
-    	  
-    	  if(b.checkpath(x, y, x, y+ydiff)){
-    		  newy = y + ydiff;
-    	  }
-    	  else if(b.checkpath(x, y, x+xdiff, y)){
-    		  newx = x + xdiff;
-    	  }
-      }
-    }
+  public void setNewPosition(int x2,int y2){
+    
+   newx = x2;
+   newy = y2;
   }
 
   public void draw(PApplet p) {

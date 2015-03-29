@@ -80,7 +80,7 @@ public class MainActivity2 extends PApplet {
 		}
 	}
 	public void mousePressed() {
-		board.movePlayer(mouseX,mouseY,board);
+		board.movePlayer(mouseX,mouseY);
 		bub.onmouseClicked(mouseX, mouseY);
 	}
 }
