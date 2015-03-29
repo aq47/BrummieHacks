@@ -1,8 +1,8 @@
 package com.example.plswork;
 
-import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +11,7 @@ import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
 
+	AudioPlayer player;
 	Button but;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +27,17 @@ public class MainActivity extends ActionBarActivity {
 				startActivity(i);
 			}
 		});
-	}
+		
 
+	}
+	@Override
+	protected void onStart() {
+		
+		super.onStart();
+		player = new AudioPlayer();
+		//player.play(getApplicationContext());
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

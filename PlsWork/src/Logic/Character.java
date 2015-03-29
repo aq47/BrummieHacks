@@ -1,116 +1,105 @@
 package Logic;
 
+import processing.core.PApplet;
+import android.util.Log;
+
 public class Character {
-	
-	private int x;
-	private int y;
-	private int health;
-	private int image;
-	private String type;
-	private Items Flare;
-	private Items Trap;
-	private Items Cloak;
-	private Items array[];
-	private boolean visible;
-	private boolean isZombie;
-	public boolean up,down,left,right;
-	
-	public Character(int x, int y, String type) {
-		this.x = x;
-		this.y =y;
-		this.type = type;
-		this.health = 100;
-		this.visible = true;
-		this.isZombie = false;
-		array = new Items[3];
-		array[0] = Flare;
-		array[1] = Trap;
-		array[2] = Cloak;
-		/*switch(type) {
-		case "Red" : image = 
-				break;
-		case "Blue" : image = 
-				break;
-		case "Green" : image = 
-				break;
-		case "Yello" : image = 
-				break;
-		}*/
-	}
+  
+  int x;
+  int y;
+  int newx;
+  int newy;
+  int radius;
+  int health;
+  boolean visible;//POWER UP 
+  boolean isZombie;
+  int speed;
+  public Character(int x,int y,int radius,int speed){
+    this.x = x;
+    this.y = y;
+    newx = x;
+    newy = y;
+    this.speed=speed;
+    this.radius = radius;
+    health = 100;
+    visible = true;
+    isZombie = false;
+  }
 
-	public int getX() {
-		return x;
-	}
+  public int getX() {
+    return x;
+  }
 
-	public void setX(int x) {
-		this.x = x;
-	}
+  public void setX(int x) {
+    this.x = x;
+  }
 
-	public int getY() {
-		return y;
-	}
+  public int getY() {
+    return y;
+  }
 
-	public void setY(int y) {
-		this.y = y;
-	}
+  public void setY(int y) {
+    this.y = y;
+  }
+  
+  public void move(){
+    int diffx = newx - x;
+    int diffy = newy - y;
+    String s ="from ("+x+","+y+") ";
+    if(speed>Math.abs(diffx)){
+      x=newx;
+    }
+    else if (diffx > 0) {
+      x+=speed;
+    } else if (diffx < 0) {
+      x-=speed;
+    }
+    if(speed>Math.abs(diffy)){
+      y=newy;
+    }
+     else if (diffy > 0) {
+      y+=speed;
+    } else if (diffy < 0) {
+      y-=speed;
+    }
+    s += "to ("+x+","+y+")";
+    //Log.d("UNIQUE ID",s);
 
-	public int getHealth() {
-		return health;
-	}
+    
+  }
+  
+  public void setNewPosition(int x2,int y2,Board b){
 
-	public void setHealth(int health) {
-		this.health = health;
-	}
+    if(b.checkpath(x, y, x2, y2)){
+      newx = x2;
+      newy = y2;
+    }
+    else{
+      int[] xandy = b.getpath(x, y, x2, y2);
+      if(xandy!=null){
+        newx = xandy[0];
+        newy = xandy[1];
+      }
+      else{
+    	  int xdiff = x2-x;
+    	  xdiff = xdiff/Math.abs(xdiff);
+    	  int ydiff = y2-y;
+    	  ydiff = ydiff/Math.abs(ydiff);
+    	  
+    	  
+    	  if(b.checkpath(x, y, x, y+ydiff)){
+    		  newy = y + ydiff;
+    	  }
+    	  else if(b.checkpath(x, y, x+xdiff, y)){
+    		  newx = x + xdiff;
+    	  }
+      }
+    }
+  }
 
-	public int getImage() {
-		return image;
-	}
-
-	public void setImage(int image) {
-		this.image = image;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Items[] getArray() {
-		return array;
-	}
-
-	public void setArray(Items[] array) {
-		this.array = array;
-	}
-
-	public boolean isVisible() {
-		return visible;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-
-	public boolean isZombie() {
-		return isZombie;
-	}
-
-	public void setZombie(boolean isZombie) {
-		this.isZombie = isZombie;
-	}
-	
-	public void draw()
-	{
-		
-	}
-	
-	
-	
-	
-	
-	
-
+  public void draw(PApplet p) {
+    p.fill(40,30,240);
+    p.ellipse((int)x, (int)y, radius, radius);
+  }
+  
 }
